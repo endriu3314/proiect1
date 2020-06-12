@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home - Proiect1</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/main.css" />
+    <script src="../../assets/js/generateTable.js"></script>
+    <script src="../../assets/js/blogposts.js"></script>
+  </head>
+
+  <body>
+    <a href="../../pages/blogposts/">blogposts</a>
+    <a href="../../pages/categories/">categories</a>
+
+    <div class="container">
+      <!-- <h1>Test</h1>
+      <p>asdfasdfsadsadf</p>
+      <div class="time">
+        <a class="alignleft">Updated at:</a>
+        <a class="alignright">Created at:</a>
+      </div>
+      <div style="clear: both;"></div> -->
+      <a href="create.html" style="background-color: green; padding: .25rem; color: white;">create</a>
+      <h1>Posts</h1>
+      <div id="content"></div>
+    </div>
+  </body>
+
+  <script>
+    const wrapper = document.getElementById("content");
+
+    function fetchData() {
+      fetch("http://localhost/proiect1/assets/php/api/posts/get_all.php", {
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => generate_table(data.body))
+        .catch((e) => {
+          wrapper.innerText = e;
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchData, false);
+  </script>
+</html>
