@@ -1,10 +1,10 @@
 function create() {
-  const url = "http://localhost/proiect1/assets/php/api/posts/create.php";
+  const url = 'http://localhost/proiect1/assets/php/api/posts/create.php';
 
-  var formElement = document.getElementsByTagName("form")[0],
-    inputElements = formElement.getElementsByTagName("input"),
-    inputElements2 = formElement.getElementsByTagName("textarea"),
-    inputElements3 = formElement.getElementsByTagName("select"),
+  var formElement = document.getElementsByTagName('form')[0],
+    inputElements = formElement.getElementsByTagName('input'),
+    inputElements2 = formElement.getElementsByTagName('textarea'),
+    inputElements3 = formElement.getElementsByTagName('select'),
     jsonObject = {};
 
   for (var i = 0; i < inputElements.length; i++) {
@@ -23,7 +23,7 @@ function create() {
   console.log(data);
 
   var request = new Request(url, {
-    method: "POST",
+    method: 'POST',
     body: data,
     headers: new Headers(),
   });

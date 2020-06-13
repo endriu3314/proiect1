@@ -25,7 +25,7 @@ Content-Type: application/json
 ###
 
 // DELETE
-POST http://localhost/proiect1/assets/php/api/posts/delete.php HTTP/1.1
+DELETE http://localhost/proiect1/assets/php/api/posts/delete.php HTTP/1.1
 Content-Type: application/json
 
 {
@@ -35,7 +35,7 @@ Content-Type: application/json
 ###
 
 // UPDATE
-POST http://localhost/proiect1/assets/php/api/posts/update.php HTTP/1.1
+PUT http://localhost/proiect1/assets/php/api/posts/update.php HTTP/1.1
 Content-Type: application/json
 
 {
