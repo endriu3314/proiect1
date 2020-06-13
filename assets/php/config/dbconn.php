@@ -20,20 +20,17 @@ class DB
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         );
 
-        try{
+        try {
             $this->db = new PDO($dsn, $this->username, $this->password, $opt);
-        }
-        catch (PDOException $e){
+        } catch (PDOException $e) {
             $this->error = $e->getMessage();
-            echo $this->error; 
+            echo $this->error;
             exit;
         }
     }
 
-    public function __destruct() {
-        $this->db = NULL;
+    public function __destruct()
+    {
+        $this->db = null;
     }
-
-    
 }
-

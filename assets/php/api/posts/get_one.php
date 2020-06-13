@@ -17,7 +17,7 @@
   
     $item->getPost();
 
-    if($item->id != null){
+    if ($item->id != null) {
         $arr = array(
             "id" => $item->id,
             "title" => $item->title,
@@ -28,10 +28,7 @@
         );
       
         echo json_encode($arr);
-    }
-      
-    else{
+    } else {
         http_response_code(404);
         echo json_encode("Post not found.");
     }
-?>

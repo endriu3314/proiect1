@@ -1,5 +1,6 @@
 <?php
-    class Post{
+    class Post
+    {
         private $db_table="posts";
 
         public $id;
@@ -7,20 +8,22 @@
         public $category_id;
         public $body;
         public $updated_at;
-        public $created_at;        
+        public $created_at;
 
         private $conn;
         
-        public function __construct($db){
+        public function __construct($db)
+        {
             $this->conn = $db;
         }
 
         /**
          * Get all posts
-         * 
+         *
          * @return void
          */
-        public function getPosts(){
+        public function getPosts()
+        {
             $query = "SELECT id, title, category_id, body, updated_at, created_at FROM " . $this->db_table;
             
             $stmt = $this->conn->prepare($query);
@@ -31,10 +34,12 @@
         
         /**
          * Get individual post by id
-         *
+         * ! not working
          * @return void
          */
-        public function getPost(){
+        //TODO: make this work
+        public function getPost()
+        {
             $query = "SELECT id, title, category_id, body, updated_at, created_at FROM " . $this->db_table . " WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -49,7 +54,8 @@
          *
          * @return void
          */
-        public function createPost(){
+        public function createPost()
+        {
             $query = "INSERT INTO " . $this->db_table . " SET title = :title, category_id = :category_id, body = :body, updated_at = :updated_at, created_at = :created_at";
             
             $stmt = $this->conn->prepare($query);
@@ -74,7 +80,8 @@
          *
          * @return void
          */
-        public function updatePost(){
+        public function updatePost()
+        {
             $query = "UPDATE " . $this->db_table . " SET title = :title, category_id = :category_id, body = :body, updated_at = :updated_at WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -98,7 +105,8 @@
          *
          * @return void
          */
-        public function deletePost(){
+        public function deletePost()
+        {
             $query = "DELETE FROM " . $this->db_table . " WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -109,5 +117,4 @@
 
             $stmt->execute();
         }
-        
     }

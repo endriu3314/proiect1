@@ -22,12 +22,10 @@
     $item->updated_at = date('Y-m-d H:i:s');
     $item->created_at = date('Y-m-d H:i:s');
     
-    try{
+    try {
         $item->updatePost();
-        echo ("Post updated.");
-    }
-    catch(Exception $e){
-        echo ("Post couldn't be updated.");
+        echo("Post updated.");
+    } catch (Exception $e) {
+        echo("Post couldn't be updated.");
         //echo ($e->getMessage());
     }
-?>

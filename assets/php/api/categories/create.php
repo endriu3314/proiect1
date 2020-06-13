@@ -19,12 +19,10 @@
     $item->updated_at = date('Y-m-d H:i:s');
     $item->created_at = date('Y-m-d H:i:s');
 
-    try{
+    try {
         $item->createCategory();
-        echo ("Category created.");
-    }
-    catch (Exception $e){
-        echo ("Category couldn't be created.");
+        echo("Category created.");
+    } catch (Exception $e) {
+        echo("Category couldn't be created.");
         //echo ($e->getMessage());
     }
-?>

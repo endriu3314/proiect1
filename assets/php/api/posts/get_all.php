@@ -13,13 +13,12 @@
     $stmt = $items->getPosts();
     $count = $stmt->rowCount();
 
-    if($count > 0){
-        
+    if ($count > 0) {
         $postArr = array();
         $postArr["body"] = array();
         $postArr["count"] = $count;
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $arr = array(
                 "id" => $id,
@@ -33,12 +32,9 @@
             array_push($postArr["body"], $arr);
         }
         echo json_encode($postArr);
-    }
-
-    else{
+    } else {
         http_response_code(404);
         echo json_encode(
             array("message" => "No record found.")
         );
     }
-?>

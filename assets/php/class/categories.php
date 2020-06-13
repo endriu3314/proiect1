@@ -1,24 +1,27 @@
 <?php
-    class Category{
+    class Category
+    {
         private $db_table="categories";
 
         public $id;
-        public $name;   
+        public $name;
         public $updated_at;
-        public $created_at; 
+        public $created_at;
 
         private $conn;
         
-        public function __construct($db){
+        public function __construct($db)
+        {
             $this->conn = $db;
         }
 
         /**
          * Get all categories
-         * 
+         *
          * @return void
          */
-        public function getCategories(){
+        public function getCategories()
+        {
             $query = "SELECT id, name, updated_at, created_at FROM " . $this->db_table;
             
             $stmt = $this->conn->prepare($query);
@@ -33,7 +36,8 @@
          *
          * @return void
          */
-        public function createCategory(){
+        public function createCategory()
+        {
             $query = "INSERT INTO " . $this->db_table . " SET name = :name, updated_at = :updated_at, created_at = :created_at";
             
             $stmt = $this->conn->prepare($query);
@@ -54,7 +58,8 @@
          *
          * @return void
          */
-        public function updateCategory(){
+        public function updateCategory()
+        {
             $query = "UPDATE " . $this->db_table . " SET name = :name, updated_at = :updated_at WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -74,7 +79,8 @@
          *
          * @return void
          */
-        public function deleteCategory(){
+        public function deleteCategory()
+        {
             $query = "DELETE FROM " . $this->db_table . " WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -85,5 +91,4 @@
 
             $stmt->execute();
         }
-        
     }

@@ -17,12 +17,10 @@
     
     $item->id = $data->id;
     
-    try{
+    try {
         $item->deleteCategory();
-        echo ("Category deleted.");
-    }
-    catch (Exception $e){
-        echo ("Category couldn't be deleted.");
+        echo("Category deleted.");
+    } catch (Exception $e) {
+        echo("Category couldn't be deleted.");
         //echo ($e->getMessage());
     }
-?>

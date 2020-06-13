@@ -1,0 +1,33 @@
+// GET_ALL
+GET http://localhost/proiect1/assets/php/api/categories/get_all.php HTTP/1.1
+
+###
+
+// CREATE
+POST http://localhost/proiect1/assets/php/api/categories/create.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "category-1"
+}
+
+###
+
+// DELETE
+POST http://localhost/proiect1/assets/php/api/categories/delete.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "1"
+}
+
+###
+
+// UPDATE
+POST http://localhost/proiect1/assets/php/api/categories/update.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "1",
+    "name": "updated"
+}

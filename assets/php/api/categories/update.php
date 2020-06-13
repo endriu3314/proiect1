@@ -20,12 +20,10 @@
     $item->updated_at = date('Y-m-d H:i:s');
     $item->created_at = date('Y-m-d H:i:s');
     
-    try{
-        $item->updatePost();
-        echo ("Category updated.");
-    }
-    catch(Exception $e){
-        echo ("Category couldn't be updated.");
+    try {
+        $item->updateCategory();
+        echo("Category updated.");
+    } catch (Exception $e) {
+        echo("Category couldn't be updated.");
         //echo ($e->getMessage());
     }
-?>
