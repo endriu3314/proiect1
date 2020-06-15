@@ -1,4 +1,6 @@
-function create() {
+import { loopSelected } from '../js/utils/loopSelected.js';
+
+export function create() {
   const url = 'http://localhost/proiect1/assets/php/api/posts/create.php';
 
   var formElement = document.getElementsByTagName('form')[0],
@@ -22,12 +24,14 @@ function create() {
   let data = JSON.stringify(jsonObject);
   console.log(data);
 
-  var request = new Request(url, {
+  loopSelected.loopSelected('category_id');
+
+  /* var request = new Request(url, {
     method: 'POST',
     body: data,
     headers: new Headers(),
   });
 
   //TODO:handle responses api
-  fetch(request).then(function () {});
+  fetch(request).then(function () {}); */
 }
