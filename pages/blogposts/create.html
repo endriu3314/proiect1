@@ -3,8 +3,8 @@
   <head>
     <title>Create Post - Proiect1</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/main.css" />
-    <script type="module" src="../../assets/js/blogposts.js"></script>
     <script type="module" src="../../assets/js/utils/loopSelected.js"></script>
+    <script type="module" src="../../assets/js/blogposts.js"></script>
   </head>
 
   <body>
@@ -52,24 +52,24 @@
           style="width: 99.5%; height: 100px;"
         ></textarea>
         <br />
-        <a onclick="create()">Creeaza</a>
+        <a id="submit">Creeaza</a>
       </form>
     </div>
   </body>
 
   <script>
-    const select = document.getElementById("category_id");
-    fetch("http://localhost/proiect1/assets/php/api/categories/get_all.php", {
-      mode: "cors",
+    const select = document.getElementById('category_id');
+    fetch('http://localhost/proiect1/assets/php/api/categories/get_all.php', {
+      mode: 'cors',
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
     })
       .then((response) => response.json())
       .then(function (data) {
         let title = data.body;
         return title.map(function (categ) {
-          let option = document.createElement("option");
+          let option = document.createElement('option');
           option.value = categ.id;
           option.innerHTML = `${categ.name}`;
           select.appendChild(option);

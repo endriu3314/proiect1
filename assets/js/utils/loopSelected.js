@@ -1,4 +1,4 @@
-export function loopSelected(id) {
+function loopSelected(id) {
   var selectedArray = new Array();
   var selObj = document.getElementById(id);
   var i;
@@ -9,5 +9,8 @@ export function loopSelected(id) {
       count++;
     }
   }
-  console.log(selectedArray);
+  return selectedArray;
+  //console.log(selectedArray);
 }
+
+export { loopSelected };

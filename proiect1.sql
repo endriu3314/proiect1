@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Gazdă: 127.0.0.1
--- Timp de generare: iun. 12, 2020 la 12:03 PM
--- Versiune server: 10.4.11-MariaDB
--- Versiune PHP: 7.4.6
+-- Host: 127.0.0.1
+-- Generation Time: Jun 15, 2020 at 12:24 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Bază de date: `proiect1`
+-- Database: `proiect1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -37,60 +37,75 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
--- Structură tabel pentru tabel `posts`
+-- Table structure for table `posts`
 --
 
 CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `category_id` int(11) NOT NULL,
   `body` text NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexuri pentru tabele eliminate
+-- Table structure for table `post_has_category`
+--
+
+CREATE TABLE `post_has_category` (
+  `post_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indexuri pentru tabele `categories`
+-- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexuri pentru tabele `posts`
+-- Indexes for table `posts`
 --
 ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `post_has_category`
+--
+ALTER TABLE `post_has_category`
+  ADD KEY `post_id` (`post_id`),
   ADD KEY `category_id` (`category_id`);
 
 --
--- AUTO_INCREMENT pentru tabele eliminate
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pentru tabele `categories`
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- AUTO_INCREMENT pentru tabele `posts`
+-- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- Constrângeri pentru tabele eliminate
+-- Constraints for dumped tables
 --
 
 --
--- Constrângeri pentru tabele `posts`
+-- Constraints for table `post_has_category`
 --
-ALTER TABLE `posts`
-  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+ALTER TABLE `post_has_category`
+  ADD CONSTRAINT `post_has_category_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `post_has_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

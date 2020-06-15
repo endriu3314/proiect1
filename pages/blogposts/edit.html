@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Post - Proiect1</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/main.css" />
+    <script type="module" src="../../assets/js/blogposts.js"></script>
+    <script type="module" src="../../assets/js/utils/loopSelected.js"></script>
+  </head>
+
+  <body>
+    <a href="../../pages/blogposts/">blogposts</a>
+    <a href="../../pages/categories/">categories</a>
+    <div class="container">
+      <form>
+        <label for="title">Title:</label> <br />
+        <input type="text" id="title" name="title" /> <br />
+
+        <!-- <label for="category_id">Category:</label> <br />
+        <select name="category_id" id="category_id"> </select>
+        <br /> -->
+
+        <!-- <select name="choice" id="choice" multiple="multiple">
+          <option value="1">One</option>
+          <option value="2">two</option>
+          <option value="3">three</option>
+        </select>
+        <script type="text/javascript">
+        
+        var optionsToSelect = ['One', 'three'];
+        var select = document.getElementById( 'choice' );
+        
+        for ( var i = 0, l = select.options.length, o; i < l; i++ )
+        {
+          o = select.options[i];
+          if ( optionsToSelect.indexOf( o.text ) != -1 )
+          {
+            o.selected = true;
+          }
+        }
+        
+      </script> -->
+
+        <label for="category_id">Category:</label> <br />
+        <select name="category_id" id="category_id" multiple="multiple">
+        </select>
+        <br />
+
+        <label for="body">Body:</label> <br />
+        <textarea
+          id="body"
+          name="body"
+          style="width: 99.5%; height: 100px;"
+        ></textarea>
+        <br />
+        <a onclick="create()">Creeaza</a>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    const select = document.getElementById('category_id');
+    fetch('http://localhost/proiect1/assets/php/api/categories/get_all.php', {
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then((response) => response.json())
+      .then(function (data) {
+        let title = data.body;
+        return title.map(function (categ) {
+          let option = document.createElement('option');
+          option.value = categ.id;
+          option.innerHTML = `${categ.name}`;
+          select.appendChild(option);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  </script>
+</html>

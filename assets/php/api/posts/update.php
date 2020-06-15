@@ -17,7 +17,7 @@
     
     $item->id = $data->id;
     $item->title = $data->title;
-    $item->category_id = $data->category_id;
+    $item->categories = $data->categories;
     $item->body = $data->body;
     $item->updated_at = date('Y-m-d H:i:s');
     $item->created_at = date('Y-m-d H:i:s');
@@ -27,5 +27,5 @@
         echo("Post updated.");
     } catch (Exception $e) {
         echo("Post couldn't be updated.");
-        //echo ($e->getMessage());
+        echo($e->getMessage());
     }

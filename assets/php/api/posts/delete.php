@@ -22,5 +22,5 @@
         echo("Post deleted.");
     } catch (Exception $e) {
         echo("Post couldn't be deleted.");
-        //echo ($e->getMessage());
+        echo($e->getMessage());
     }

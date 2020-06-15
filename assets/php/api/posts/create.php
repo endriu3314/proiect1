@@ -16,8 +16,8 @@
     $data = json_decode(file_get_contents("php://input"));
     
     $item->title = $data->title;
-    $item->category_id = $data->category_id;
     $item->body = $data->body;
+    $item->categories = $data->categories;
     $item->updated_at = date('Y-m-d H:i:s');
     $item->created_at = date('Y-m-d H:i:s');
 
@@ -26,5 +26,5 @@
         echo("Post created.");
     } catch (Exception $e) {
         echo("Post couldn't be created.");
-        //echo ($e->getMessage());
+        //echo($e->getMessage());
     }

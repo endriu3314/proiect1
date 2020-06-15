@@ -10,22 +10,7 @@
 
     $item = new Post($db);
 
-    $item->id = $_GET['id'];
-  
-    $item->getPost();
+    $data = json_decode(file_get_contents("php://input"));
+    $item->id = $data->id;
 
-    if ($item->id != null) {
-        $arr = array(
-            "id" => $item->id,
-            "title" => $item->title,
-            "category_id" => $item->category_id,
-            "body" => $item->body,
-            "updated_at" => $item->updated_at,
-            "created_at" => $item->created_at
-        );
-      
-        echo json_encode($arr);
-    } else {
-        http_response_code(404);
-        echo json_encode("Post not found.");
-    }
+    echo $item->getPost();
