@@ -74,10 +74,10 @@
                     );
 
                     array_push($postArr["body"], $arr);
-                    $postArr["success"] = true;
-                    $postArr["message"] = "Retrieved posts";
-                    return json_encode($postArr);
                 }
+                $postArr["success"] = true;
+                $postArr["message"] = "Retrieved posts";
+                return json_encode($postArr);
             } else {
                 http_response_code(404);
                 throw new Exception('No records found');
