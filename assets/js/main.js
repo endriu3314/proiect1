@@ -1,7 +1,11 @@
 //TODO: update is not working well
-import { dom, addClasses, removeClasses } from './utils.js';
-import { append } from './utils.js';
-import { loopSelected } from './utils.js';
+import {
+  dom,
+  append,
+  addClasses,
+  removeClasses,
+  loopSelected,
+} from './utils.js';
 
 window.onload = () => {
   initApp();
