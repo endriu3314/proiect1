@@ -24,8 +24,18 @@
     
     try {
         $item->updatePost();
-        echo("Post updated.");
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Post updated."
+        );
+        echo json_encode($arr);
     } catch (Exception $e) {
-        echo("Post couldn't be updated.");
-        echo($e->getMessage());
+        http_response_code(200);
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Post couldn't be updated."
+        );
+        echo json_encode($arr);
     }

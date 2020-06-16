@@ -21,8 +21,18 @@
 
     try {
         $item->createCategory();
-        echo("Category created.");
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Category created."
+        );
+        echo json_encode($arr);
     } catch (Exception $e) {
-        echo("Category couldn't be created.");
-        //echo ($e->getMessage());
+        http_response_code(200);
+        $arr = array(
+            "success" => false,
+            "body" => [],
+            "message" => "Category couldn't be created."
+        );
+        echo json_encode($arr);
     }

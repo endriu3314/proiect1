@@ -19,8 +19,18 @@
     
     try {
         $item->deletePost();
-        echo("Post deleted.");
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Post deleted."
+        );
+        echo json_encode($arr);
     } catch (Exception $e) {
-        echo("Post couldn't be deleted.");
-        echo($e->getMessage());
+        http_response_code(200);
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Post couldn't be deleted."
+        );
+        echo json_encode($arr);
     }

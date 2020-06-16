@@ -10,4 +10,14 @@
 
     $items = new Post($db);
 
-    echo $items->getPosts();
+    try {
+        echo $items->getPosts();
+    } catch (Exception $e) {
+        http_response_code(200);
+        $arr = array(
+            "success" => false,
+            "body" => [],
+            "message" => "There was an error while retrieving posts."
+        );
+        echo json_encode($arr);
+    }

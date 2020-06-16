@@ -105,7 +105,7 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `post_has_category`
   ADD CONSTRAINT `post_has_category_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `post_has_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `post_has_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

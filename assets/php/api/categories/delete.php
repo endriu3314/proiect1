@@ -19,8 +19,18 @@
     
     try {
         $item->deleteCategory();
-        echo("Category deleted.");
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Category deleted."
+        );
+        echo json_encode($arr);
     } catch (Exception $e) {
-        echo("Category couldn't be deleted.");
-        //echo ($e->getMessage());
+        http_response_code(200);
+        $arr = array(
+            "success" => false,
+            "body" => [],
+            "message" => "Category couldn't be deleted."
+        );
+        echo json_encode($arr);
     }

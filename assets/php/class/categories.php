@@ -27,7 +27,29 @@
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             
-            return $stmt;
+            $categArr = array();
+            $categArr["body"] = array();
+            $categArr["count"] = $stmt->rowCount();
+            $categs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($categs) {
+                foreach ($categs as $categ) {
+                    extract($categ);
+                    $arr = array(
+                        "id" => $id,
+                        "name" => $name,
+                        "updated_at" => $updated_at,
+                        "created_at" => $created_at
+                    );
+
+                    array_push($categArr["body"], $arr);
+                }
+                $categArr["success"] = true;
+                $categArr["message"] = "Got categories.";
+                return json_encode($categArr);
+            } else {
+                throw new Exception("Couldn't get categories.");
+            }
         }
         
         

@@ -22,8 +22,18 @@
     
     try {
         $item->updateCategory();
-        echo("Category updated.");
+        $arr = array(
+            "success" => true,
+            "body" => [],
+            "message" => "Category updated."
+        );
+        echo json_encode($arr);
     } catch (Exception $e) {
-        echo("Category couldn't be updated.");
-        //echo ($e->getMessage());
+        http_response_code(200);
+        $arr = array(
+            "success" => false,
+            "body" => [],
+            "message" => "Category couldn't be updated."
+        );
+        echo json_encode($arr);
     }

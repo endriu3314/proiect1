@@ -74,13 +74,14 @@
                     );
 
                     array_push($postArr["body"], $arr);
+                    $postArr["success"] = true;
+                    $postArr["message"] = "Retrieved posts";
+                    return json_encode($postArr);
                 }
             } else {
                 http_response_code(404);
-                return json_encode("There was an error!");
+                throw new Exception('No records found');
             }
-
-            return json_encode($postArr);
         }
         
         /**
@@ -119,7 +120,7 @@
                     array_push($postArr["body"], $arr);
                 } else {
                     http_response_code(404);
-                    return json_encode("There was an error!");
+                    throw new Exception("Failed to retrieve records.");
                 }
 
                 //----- CATEGORIES -----
@@ -148,11 +149,13 @@
                 } else {
                     $postArr["body"][0]["categories"]=[];
                 }
-                
+
+                $postArr["success"] = true;
+                $postArr["message"] = "Retrieved post.";
                 return json_encode($postArr);
             } else {
                 http_response_code(404);
-                return json_encode("Post not found.");
+                throw new Exception("Post not found.");
             }
         }
         
