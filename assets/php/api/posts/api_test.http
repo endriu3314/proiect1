@@ -21,7 +21,8 @@ Content-Type: application/json
     "title": "post-1",
     "body": "body-post-1 tttttttttt",
     "categories": [
-        "3"
+        "1",
+        "2"
     ]
 }
 

@@ -15,6 +15,12 @@ export function addClasses(element, clase) {
   });
 }
 
+export function removeClasses(element, clase) {
+  clase.split(' ').forEach((clasa) => {
+    element.classList.remove(clasa);
+  });
+}
+
 export function loopSelected(id) {
   var selectedArray = new Array();
   var selObj = document.getElementById(id);

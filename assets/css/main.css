@@ -1,3 +1,26 @@
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+
+/*
+.modal {
+  transition: opacity 0.25s ease;
+}
+
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
+*/
+
+.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.is-blurred {
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+}
