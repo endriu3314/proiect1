@@ -51,6 +51,47 @@
                 throw new Exception("Couldn't get categories.");
             }
         }
+
+        /**
+         * Get one category
+         *
+         * @return void
+         */
+        public function getCategory()
+        {
+            $query = "SELECT id, name, updated_at, created_at FROM " . $this->db_table . " WHERE id = :id";
+
+            $stmt = $this->conn->prepare($query);
+            
+            //echo($this->id);
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            $stmt->bindParam(":id", $this->id);
+
+            $stmt->execute();
+
+            $categArr = array();
+            $categArr["body"] = array();
+            $categ = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($categ) {
+                extract($categ);
+                $arr = array(
+                    "id" => $id,
+                    "name" => $name,
+                    "updated_at" => $updated_at,
+                    "created_at" => $created_at
+                );
+
+                array_push($categArr["body"], $arr);
+
+                $categArr["success"] = true;
+                $categArr["message"] = "Got categories.";
+                return json_encode($categArr);
+            } else {
+                throw new Exception("Couldn't get category.");
+            }
+        }
         
         
         /**

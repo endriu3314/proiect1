@@ -3,6 +3,15 @@ GET http://localhost/proiect1/assets/php/api/categories/get_all.php HTTP/1.1
 
 ###
 
+// GET_ONE
+GET http://localhost/proiect1/assets/php/api/categories/get_one.php/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 6
+}
+
+
 // CREATE
 POST http://localhost/proiect1/assets/php/api/categories/create.php HTTP/1.1
 Content-Type: application/json

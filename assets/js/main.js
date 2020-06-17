@@ -82,6 +82,12 @@ const defineEvents = () => {
   const createCategoriesHandler = (evt) => {
     let contComp = createCategoriesComps();
     append(mainContainer, contComp);
+
+    let btn = document.querySelector('#submit');
+    btn.addEventListener('click', function (evt) {
+      createCategory();
+      document.querySelector('#form-create-post').reset();
+    });
   };
 
   viewPostTableButton.addEventListener('click', viewPostTableHandler);
@@ -302,11 +308,101 @@ const createPostComps = () => {
 
 const createCategoriesTableComps = () => {
   mainContainer.innerHTML = '';
-
   let cont = dom('div');
-  cont.style.background = 'green';
-  cont.style.width = '100%';
-  cont.style.height = '400px';
+  addClasses(
+    cont,
+    'container mx-auto bg-indigo-800 font-bold rounded-lg border shadow-lg p-5 w-11/12 m-5'
+  );
+
+  let table = dom('table');
+  addClasses(table, 'table-auto w-full bg-white');
+
+  fetch('http://localhost/proiect1/assets/php/api/categories/get_all.php', {
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  })
+    .then((response) => response.json())
+    .then(function (json) {
+      if (json.success === true) {
+        //----- TABLE HEAD -----
+        let tr = dom('tr');
+
+        Object.keys(json.body[0]).forEach(function (cheie) {
+          //console.log(cheie);
+
+          let th = dom('th', cheie);
+          addClasses(th, 'border px-4 py-2');
+
+          append(tr, th);
+        });
+
+        let th = dom('th', 'actions');
+        addClasses(th, 'border px-4 py-2');
+
+        append(tr, th);
+        append(table, tr);
+
+        //----- TABLE BODY -----
+        json.body.forEach(function (element) {
+          let tr = dom('tr');
+
+          Object.keys(element).forEach(function (cheie, cheiedx, array) {
+            if (element[cheie] != '') {
+              let td = dom('td', element[cheie]);
+              addClasses(td, 'border px-4 py-2');
+
+              append(tr, td);
+            } else {
+              let td = dom('td', '');
+              addClasses(td, 'border px-4 py-2');
+
+              append(tr, td);
+            }
+
+            if (cheiedx == array.length - 1) {
+              //----- Edit Button -----/
+              let td = dom('td');
+              addClasses(td, 'border px-4 py-2');
+
+              let buttonEdit = dom('button');
+              addClasses(
+                buttonEdit,
+                'bg-indigo-800 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-4'
+              );
+              buttonEdit.onclick = () => {
+                editCategoryCallback(element['id']);
+              };
+              buttonEdit.innerHTML = 'edit';
+
+              append(td, buttonEdit);
+
+              //----- Delete Button -----/
+              let buttonDelete = dom('button');
+              addClasses(
+                buttonDelete,
+                'bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+              );
+              buttonDelete.onclick = () => {
+                deleteCategoryCallback(element['id']);
+              };
+              buttonDelete.innerHTML = 'delete';
+
+              append(td, buttonDelete);
+
+              append(tr, td);
+            }
+          });
+          append(table, tr);
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  append(cont, table);
 
   return cont;
 };
@@ -315,9 +411,61 @@ const createCategoriesComps = () => {
   mainContainer.innerHTML = '';
 
   let cont = dom('div');
-  cont.style.background = 'yellow';
-  cont.style.width = '100%';
-  cont.style.height = '400px';
+  addClasses(
+    cont,
+    'container mx-auto bg-indigo-800 font-bold rounded-lg border shadow-lg p-5 w-11/12 m-5 flex items-center justify-center'
+  );
+
+  let formContainer = dom('div');
+  addClasses(formContainer, 'w-full');
+
+  let form = dom('form');
+  addClasses(form, 'shadow-md bg-white rounded px-8 pt-6 pb-8');
+  form.id = 'form-create-post';
+
+  //----- NAME -----
+  let nameContainerInput = dom('div');
+  addClasses(nameContainerInput, 'mb-4');
+
+  let labelName = dom('label');
+  labelName.innerHTML = 'Name';
+  addClasses(labelName, 'block text-gray-700 text-sm font-bold mb-2');
+
+  let inputName = dom('input');
+  addClasses(
+    inputName,
+    'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+  );
+  inputName.id = 'name';
+  inputName.name = 'name';
+  inputName.type = 'text';
+  inputName.placeholder = 'Name';
+
+  append(nameContainerInput, labelName);
+  append(nameContainerInput, inputName);
+
+  append(form, nameContainerInput);
+
+  //----- SUBMIT -----
+  let submitContainer = dom('div');
+  addClasses(submitContainer, 'flex items-center justify-between');
+
+  let submitButton = dom('button');
+  addClasses(
+    submitButton,
+    'bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+  );
+  submitButton.innerHTML = 'Create';
+  submitButton.type = 'button';
+  submitButton.id = 'submit';
+
+  append(submitContainer, submitButton);
+
+  append(form, submitContainer);
+
+  append(formContainer, form);
+
+  append(cont, formContainer);
 
   return cont;
 };
@@ -409,10 +557,104 @@ const deletePost = (id) => {
   append(mainContainer, contComp);
 };
 
+const createCategory = () => {
+  const url = 'http://localhost/proiect1/assets/php/api/categories/create.php';
+
+  var formElement = document.getElementsByTagName('form')[0],
+    inputElements = formElement.getElementsByTagName('input'),
+    jsonObject = {};
+
+  for (var i = 0; i < inputElements.length; i++) {
+    var inputElement = inputElements[i];
+    jsonObject[inputElement.name] = inputElement.value;
+  }
+
+  let data = JSON.stringify(jsonObject);
+  //console.log(data);
+
+  var request = new Request(url, {
+    method: 'POST',
+    body: data,
+    headers: new Headers(),
+  });
+
+  //TODO:handle responses api
+  fetch(request).then(function () {});
+};
+
+const updateCategory = (id) => {
+  const url = 'http://localhost/proiect1/assets/php/api/categories/update.php';
+
+  var formElement = document.getElementsByTagName('form')[0],
+    inputElements = formElement.getElementsByTagName('input'),
+    jsonObject = {};
+
+  for (var i = 0; i < inputElements.length; i++) {
+    var inputElement = inputElements[i];
+    jsonObject[inputElement.name] = inputElement.value;
+  }
+
+  jsonObject['id'] = id;
+  let data = JSON.stringify(jsonObject);
+  //console.log(data);
+
+  var request = new Request(url, {
+    method: 'POST',
+    body: data,
+    headers: new Headers(),
+  });
+
+  //TODO:handle responses api
+  fetch(request).then(function () {});
+
+  let contComp = createCategoriesTableComps();
+  append(mainContainer, contComp);
+};
+
+const deleteCategory = (id) => {
+  const url = 'http://localhost/proiect1/assets/php/api/categories/delete.php';
+
+  // prettier-ignore
+  let jsonObject = {
+    "id": id,
+  };
+  let data = JSON.stringify(jsonObject);
+
+  var request = new Request(url, {
+    method: 'DELETE',
+    body: data,
+    heards: new Headers(),
+  });
+
+  //TODO:handle responses api
+  fetch(request).then(function () {});
+
+  let contComp = createCategoriesTableComps();
+  append(mainContainer, contComp);
+};
+
 const editPostCallback = (id) => {
   let modal = dom('div');
   addClasses(modal, 'popup w-1/2 bg-white rounded-lg shadow-lg');
   addClasses(document.querySelector('.container'), 'is-blurred');
+
+  let closeBtn = dom('button');
+  addClasses(
+    closeBtn,
+    'bg-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center mx-5 my-4 float-right'
+  );
+  closeBtn.innerHTML = 'close';
+  closeBtn.id = 'close-btn';
+
+  let title = dom('h1');
+  addClasses(
+    title,
+    'text-gray-700 font-bold py-2 px-4 inline-flex mx-5 my-4 float-left text-lg'
+  );
+  title.innerHTML = 'Edit post';
+
+  append(modal, title);
+  append(modal, closeBtn);
 
   let cont = dom('div');
   addClasses(
@@ -592,6 +834,12 @@ const editPostCallback = (id) => {
   btn.addEventListener('click', function (evt) {
     updatePost(id);
   });
+
+  let closeBtn2 = document.querySelector('#close-btn');
+  closeBtn2.addEventListener('click', (evt) => {
+    let contComp = createPostTableComps();
+    append(mainContainer, contComp);
+  });
 };
 
 const deletePostCallback = (id) => {
@@ -641,5 +889,195 @@ const deletePostCallback = (id) => {
   btn.addEventListener('click', function (evt) {
     //console.log('delete');
     deletePost(id);
+  });
+
+  let btn2 = document.querySelector('#close');
+  btn2.addEventListener('click', function (evt) {
+    let contComp = createPostTableComps();
+    append(mainContainer, contComp);
+  });
+};
+
+const editCategoryCallback = (id) => {
+  //console.log(id);
+  let modal = dom('div');
+  addClasses(modal, 'popup w-1/2 bg-white rounded-lg shadow-lg');
+  addClasses(document.querySelector('.container'), 'is-blurred');
+
+  let closeBtn = dom('button');
+  addClasses(
+    closeBtn,
+    'bg-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center mx-5 my-4 float-right'
+  );
+  closeBtn.innerHTML = 'close';
+  closeBtn.id = 'close-btn';
+
+  let title = dom('h1');
+  addClasses(
+    title,
+    'text-gray-700 font-bold py-2 px-4 inline-flex mx-5 my-4 float-left text-lg'
+  );
+  title.innerHTML = 'Edit post';
+
+  append(modal, title);
+  append(modal, closeBtn);
+
+  let cont = dom('div');
+  addClasses(
+    cont,
+    'container mx-auto bg-indigo-800 font-bold rounded-lg border shadow-lg p-5 w-11/12 m-5 flex items-center justify-center'
+  );
+
+  let formContainer = dom('div');
+  addClasses(formContainer, 'w-full');
+
+  let form = dom('form');
+  addClasses(form, 'shadow-md bg-white rounded px-8 pt-6 pb-8');
+  form.id = 'form-create-post';
+
+  //----- NAME -----
+  let nameContainerInput = dom('div');
+  addClasses(nameContainerInput, 'mb-4');
+
+  let labelName = dom('label');
+  labelName.innerHTML = 'Name';
+  addClasses(labelName, 'block text-gray-700 text-sm font-bold mb-2');
+
+  let inputName = dom('input');
+  addClasses(
+    inputName,
+    'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+  );
+  inputName.id = 'name';
+  inputName.name = 'name';
+  inputName.type = 'text';
+  inputName.placeholder = 'Name';
+
+  append(nameContainerInput, labelName);
+  append(nameContainerInput, inputName);
+
+  append(form, nameContainerInput);
+
+  //----- SUBMIT -----
+  let submitContainer = dom('div');
+  addClasses(submitContainer, 'flex items-center justify-between');
+
+  let submitButton = dom('button');
+  addClasses(
+    submitButton,
+    'bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+  );
+  submitButton.innerHTML = 'Update';
+  submitButton.type = 'button';
+  submitButton.id = 'submit';
+
+  //----- FETCH VALUES -----/
+  // prettier-ignore
+  let data = {
+    'id': id,
+  };
+
+  //console.log(JSON.stringify(data));
+
+  fetch('http://localhost/proiect1/assets/php/api/categories/get_one.php', {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
+      if (data.success === true) {
+        let category = data.body;
+
+        let inputName = document.querySelector('#name');
+
+        inputName.value = category[0].name;
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  append(submitContainer, submitButton);
+
+  append(form, submitContainer);
+
+  append(formContainer, form);
+
+  append(cont, formContainer);
+
+  append(modal, cont);
+
+  append(mainContainer, modal);
+
+  let btn = document.querySelector('#submit');
+  btn.addEventListener('click', function (evt) {
+    updateCategory(id);
+  });
+
+  let closeBtn2 = document.querySelector('#close-btn');
+  closeBtn2.addEventListener('click', (evt) => {
+    let contComp = createCategoriesTableComps();
+    append(mainContainer, contComp);
+  });
+};
+
+const deleteCategoryCallback = (id) => {
+  let modal = dom('div');
+  addClasses(modal, 'popup w-1/2 bg-white rounded-lg shadow-lg');
+  addClasses(document.querySelector('.container'), 'is-blurred');
+
+  let cont = dom('div');
+  addClasses(
+    cont,
+    'container mx-auto bg-indigo-800 font-bold rounded-lg border shadow-lg p-5 w-11/12 m-5 flex items-center justify-center'
+  );
+
+  let verificare = dom('div');
+  addClasses(verificare, 'w-full shadow-md bg-white rounded px-8 pt-6 pb-8');
+
+  let title = dom('h1', 'Are you sure you want to delete?');
+  addClasses(title, 'text-2xl text-gray-700 mb-4');
+
+  let yesButton = dom('button');
+  addClasses(
+    yesButton,
+    'bg-indigo-800 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4'
+  );
+  yesButton.innerHTML = 'Yes';
+  yesButton.id = 'yes';
+
+  let closeButton = dom('button');
+  addClasses(
+    closeButton,
+    'bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+  );
+  closeButton.innerHTML = 'Close';
+  closeButton.id = 'close';
+
+  append(verificare, title);
+
+  append(verificare, yesButton);
+  append(verificare, closeButton);
+  append(cont, verificare);
+
+  append(modal, cont);
+
+  append(mainContainer, modal);
+
+  let btn = document.querySelector('#yes');
+  btn.addEventListener('click', function (evt) {
+    //console.log('delete');
+    deleteCategory(id);
+  });
+
+  let btn2 = document.querySelector('#close');
+  btn2.addEventListener('click', function (evt) {
+    let contComp = createCategoriesTableComps();
+    append(mainContainer, contComp);
   });
 };
